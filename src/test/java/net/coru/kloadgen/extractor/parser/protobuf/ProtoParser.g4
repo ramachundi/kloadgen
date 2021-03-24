@@ -1,4 +1,4 @@
-package net.coru.kloadgen.extractor.parser.protobuf;
+parser grammar ProtoParser;
 
 options {
     output = AST;
