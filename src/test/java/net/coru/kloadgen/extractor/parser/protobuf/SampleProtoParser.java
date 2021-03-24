@@ -1,6 +1,6 @@
 package net.coru.kloadgen.extractor.parser.protobuf;
 
-import net.coru.kloadgen.extractor.parser.protobuf.dsl.*;
+import org.antlr.v4.runtime.*;
 
 public class SampleProtoParser extends ProtoParser {
   SampleExceptionHandler handler;

@@ -1,5 +1,7 @@
 package net.coru.kloadgen.extractor.parser.protobuf;
 
+import org.antlr.v4.runtime.CharStream;
+
 public class SampleProtoLexer {
   SampleExceptionHandler handler;
 
