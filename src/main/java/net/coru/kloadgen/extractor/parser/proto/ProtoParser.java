@@ -1,19 +1,12 @@
 package net.coru.kloadgen.extractor.parser.proto;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static net.coru.kloadgen.extractor.parser.proto.ProtoFile.Syntax.PROTO_2;
 import static net.coru.kloadgen.extractor.parser.proto.ProtoFile.Syntax.PROTO_3;
 
 import com.google.auto.value.AutoValue;
 import java.io.CharArrayWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,26 +15,10 @@ import java.util.Map;
 import net.coru.kloadgen.extractor.parser.proto.DataType.MapType;
 import net.coru.kloadgen.extractor.parser.proto.DataType.NamedType;
 import net.coru.kloadgen.extractor.parser.proto.DataType.ScalarType;
+import net.coru.kloadgen.model.json.Field;
 
 public final class ProtoParser {
-  /** Parse a {@code .proto} definition file. */
-  public static ProtoFile parseUtf8(File file) throws IOException {
-    try (InputStream is = new FileInputStream(file)) {
-      return parseUtf8(file.getPath(), is);
-    }
-  }
 
-  /** Parse a {@code .proto} definition file. */
-  public static ProtoFile parseUtf8(Path path) throws IOException {
-    try (Reader reader = Files.newBufferedReader(path, UTF_8)) {
-      return parse(path.toString(), reader);
-    }
-  }
-
-  /** Parse a named {@code .proto} schema. The {@code InputStream} is not closed. */
-  public static ProtoFile parseUtf8(String name, InputStream is) throws IOException {
-    return parse(name, new InputStreamReader(is, UTF_8));
-  }
 
   /** Parse a named {@code .proto} schema. The {@code Reader} is not closed. */
   public static ProtoFile parse(String name, Reader reader) throws IOException {
@@ -82,12 +59,14 @@ public final class ProtoParser {
   }
 
   ProtoFile readProtoFile() {
+    List<Field> fields = new ArrayList<>();
     while (true) {
       String documentation = readDocumentation();
       if (pos == data.length) {
         return fileBuilder.build();
       }
       Object declaration = readDeclaration(documentation, Context.FILE);
+      List<FieldElement> list = ((AutoValue_MessageElement) declaration).fields();
       if (declaration instanceof TypeElement) {
         fileBuilder.addType((TypeElement) declaration);
       } else if (declaration instanceof ServiceElement) {

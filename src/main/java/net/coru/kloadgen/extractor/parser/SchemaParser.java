@@ -14,4 +14,5 @@ public interface SchemaParser {
 	Schema parse(String jsonSchema);
 
 	Schema parse(JsonNode jsonNode);
+
 }
