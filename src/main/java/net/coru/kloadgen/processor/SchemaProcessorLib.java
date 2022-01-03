@@ -31,7 +31,7 @@ public abstract class SchemaProcessorLib {
     private static final RandomArray randomArray = new RandomArray();
 
     static boolean checkIfIsRecordMapArray(String cleanPath) {
-        var indexOfArrayIdentifier = StringUtils.substring(cleanPath, cleanPath.indexOf("["), cleanPath.indexOf(":]"));
+        String indexOfArrayIdentifier = StringUtils.substring(cleanPath, cleanPath.indexOf("["), cleanPath.indexOf(":]"));
         return indexOfArrayIdentifier.contains("][");
 
     }
@@ -41,7 +41,7 @@ public abstract class SchemaProcessorLib {
     }
 
     static boolean checkIfRecordArray(String cleanPath) {
-        var substring = StringUtils.substring(cleanPath, cleanPath.indexOf("["), cleanPath.indexOf(":]"));
+        String substring = StringUtils.substring(cleanPath, cleanPath.indexOf("["), cleanPath.indexOf(":]"));
         return substring.contains("].");
     }
 
@@ -145,7 +145,7 @@ public abstract class SchemaProcessorLib {
                         fieldValue
         );
 
-        var value = new HashMap<>(mapSize);
+        HashMap<String, Object> value = new HashMap<>(mapSize);
         if ("seq".equals(fieldType)) {
             for (int i = mapSize; i > 0; i--) {
                 value.put(generateMapKey(),
@@ -207,7 +207,7 @@ public abstract class SchemaProcessorLib {
             type = fieldType.replace("-map", "");
         }
         for (int i = 0; i < mapSize; i++) {
-            var list = generateRandomList(fieldName, type, arraySize, fieldValueLength, fieldExpMappings);
+            Object list = generateRandomList(fieldName, type, arraySize, fieldValueLength, fieldExpMappings);
             result.put(generateMapKey(), list);
         }
         return result;

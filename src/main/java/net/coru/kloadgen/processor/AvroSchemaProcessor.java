@@ -176,7 +176,7 @@ public class AvroSchemaProcessor extends SchemaProcessorLib {
         fieldExpMappingsQueue.remove();
         Integer arraySize = calculateSize(fieldValueMapping.getFieldName(), fieldName);
         Integer mapSize = calculateMapSize(fieldValueMapping.getFieldName(), fieldName);
-        var simpleTypeArrayMap = createSimpleTypeArrayMap(fieldName, fieldValueMapping.getFieldType(), arraySize, mapSize, fieldValueMapping.getValueLength(), fieldValueMapping.getFieldValuesList());
+        Map<String, Object> simpleTypeArrayMap = createSimpleTypeArrayMap(fieldName, fieldValueMapping.getFieldType(), arraySize, mapSize, fieldValueMapping.getValueLength(), fieldValueMapping.getFieldValuesList());
         entity.put(fieldName, simpleTypeArrayMap);
         return getSafeGetElement(fieldExpMappingsQueue);
     }
@@ -186,7 +186,7 @@ public class AvroSchemaProcessor extends SchemaProcessorLib {
         Integer arraySize = calculateSize(fieldValueMapping.getFieldName(), fieldName);
         Integer mapSize = calculateMapSize(fieldValueMapping.getFieldName(), fieldName);
 
-        var mapArray = randomMap.generateMap(fieldValueMapping.getFieldType(), mapSize, fieldValueMapping.getFieldValuesList(),fieldValueMapping.getValueLength(), arraySize, fieldValueMapping.getConstrains());
+        Object mapArray = randomMap.generateMap(fieldValueMapping.getFieldType(), mapSize, fieldValueMapping.getFieldValuesList(),fieldValueMapping.getValueLength(), arraySize, fieldValueMapping.getConstrains());
 
         entity.put(fieldName, mapArray);
         return getSafeGetElement(fieldExpMappingsQueue);
@@ -213,7 +213,7 @@ public class AvroSchemaProcessor extends SchemaProcessorLib {
         FieldValueMapping fieldValueMapping = fieldExpMappingsQueue.element();
         Integer arraySize = calculateSize(fieldValueMapping.getFieldName(), fieldName);
         Integer mapSize = calculateMapSize(fieldValueMapping.getFieldName(), fieldName);
-        var recordArrayMap = new ArrayList<>(arraySize);
+        ArrayList<Object> recordArrayMap = new ArrayList<>(arraySize);
         for (int i = 0; i < arraySize - 1; i++) {
             ArrayDeque<FieldValueMapping> temporalQueue = fieldExpMappingsQueue.clone();
             recordArrayMap.add(createObjectMap(extractType(entity.getSchema().getField(fieldName), ARRAY).getElementType(), fieldName, mapSize, temporalQueue));

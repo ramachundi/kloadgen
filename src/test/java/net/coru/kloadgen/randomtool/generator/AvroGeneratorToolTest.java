@@ -150,8 +150,8 @@ class AvroGeneratorToolTest {
   @MethodSource("parametersForGenerateRandomValueWithList")
   void testGenerateRandomValueWithList(int size, List<String> values, List<String> expected) {
 
-    var intList = new ArrayList<>();
-    var context = new HashMap<String, Object>();
+    ArrayList<Object> intList = new ArrayList<>();
+    HashMap<String, Object> context = new HashMap<String, Object>();
     for (int i=0; i <= size; i++) {
       intList.add(new AvroGeneratorTool().generateSequenceForFieldValueList("ClientCode", "seq", values, context));
     }
